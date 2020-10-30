@@ -1,0 +1,15 @@
+node{
+   stage('SCM Checkout'){
+     git 'https://github.com/monoem/cicd_k8s/'
+   }
+   stage('Compile-Package'){
+      // Get maven home path
+      def mvnHome =  tool name: 'maven', type: 'maven'   
+      sh "${mvnhome}/bin/mvn package"
+   }
+   stage('SonarQube Analysis') {
+        def mvnHome =  tool name: 'maven', type: 'maven'
+        withSonarQubeEnv('sonar6') { 
+          sh "${mvnHome}/bin/mvn sonar:sonar"
+        }
+}
