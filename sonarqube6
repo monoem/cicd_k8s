@@ -7,10 +7,21 @@ node {
   def mvnhome = tool name: 'maven', type: 'maven'
   sh "${mvnhome}/bin/mvn package"
     }
+    
+  // SonarQube
    stage('SonarQube Analysis') {
         def mvnHome =  tool name: 'maven', type: 'maven'
         withSonarQubeEnv('sonar6') { 
           sh "${mvnHome}/bin/mvn sonar:sonar"
         }
     }
+   // Email Notification
+    stage('Email Notification'){
+		mail bcc: '', body: """Hi Team, You build successfully deployed
+		                       Job URL : ${env.JOB_URL}
+							   Job Name: ${env.JOB_NAME}
+Thanks,
+DevOps Team""", cc: '', from: '', replyTo: '', subject: "${env.JOB_NAME} Success", to: 'monoem.youneba@gmail.com'
+   
+   }
 }
