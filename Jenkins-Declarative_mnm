@@ -2,7 +2,7 @@ pipeline{
     agent any // Execute this Pipeline or any of its stages, on any available agent
     
     environment{
-    PATH = "/opt/maven/bin:$PATH"
+        PATH = "/opt/maven/bin:$PATH"
     }
     
     stages{
@@ -12,7 +12,8 @@ pipeline{
             }            
         }        
        stage("Maven Build"){
-       sh "mvn clean package"
+            steps{
+                sh "mvn clean package"
            }       
        }       
     }
