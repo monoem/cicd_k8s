@@ -1,0 +1,57 @@
+node {
+  stage ('SCM Checkout'){
+  git 'https://github.com/monoem/cicd_k8s'
+  }
+  stage ('compile-package'){
+  // Get maven path home
+  def mvnhome = tool name: 'maven', type: 'maven'
+  sh "${mvnhome}/bin/mvn package"
+    }
+    
+  // SonarQube
+   stage('SonarQube Analysis') {
+        def mvnHome =  tool name: 'maven', type: 'maven'
+        withSonarQubeEnv('sonar6') { 
+          sh "${mvnHome}/bin/mvn sonar:sonar"
+        }
+    }
+    
+    /*
+    // Mark Jenkins Pipeline Job As Failed, When SonarQube Status Is Failed
+    stage("Quality Gate Statuc Check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                   slackSend baseUrl: 'https://hooks.slack.com/services/',
+                   channel: '#jenkins-pipeline-demo',
+                   color: 'danger', 
+                   message: 'SonarQube Analysis Failed', 
+                   teamDomain: 'javahomecloud',
+                   tokenCredentialId: 'slack-demo'
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      }    
+    
+    
+   // Email Notification
+    stage('Email Notification'){
+		mail bcc: '', body: """Hi Team, You build successfully deployed
+		                       Job URL : ${env.JOB_URL}
+							   Job Name: ${env.JOB_NAME}
+Thanks,
+DevOps Team""", cc: '', from: '', replyTo: '', subject: "${env.JOB_NAME} Success", to: 'monoem.youneba@gmail.com'
+   
+   }
+   
+   // deploy on tomcat
+   
+   stage('Deploy to Tomcat'){
+      
+      sshagent(['tomcat-dev']) {
+         sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@172.31.29.242:/opt/tomcat8/webapps/'
+      }
+   }
+   
+   */
+}
