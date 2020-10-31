@@ -19,14 +19,13 @@ pipeline{
            }       
        }
        sshagent (credentials: ['tomcat-dev']) {
-	      sh """ 
-          scp -o StrictHostKeyChecking=no target/cicd_k8s.war tomcat@172.31.7.190:/opt/tomcat8/webapps/
-          // restart my tomcat
-          sh tomcat@172.31.7.190 /opt/tomcat8/bin/shutdown.sh
-		  sh tomcat@172.31.7.190 /opt/tomcat8/bin/startup.sh
+	  sh """ 
+          	scp -o StrictHostKeyChecking=no target/cicd_k8s.war tomcat@172.31.7.190:/opt/tomcat8/webapps/
+          	// restart my tomcat
+          	sh tomcat@172.31.7.190 /opt/tomcat8/bin/shutdown.sh
+		sh tomcat@172.31.7.190 /opt/tomcat8/bin/startup.sh
           """
-       }
-       
+       }      
        
        }
        
