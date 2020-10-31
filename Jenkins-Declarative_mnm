@@ -1,10 +1,19 @@
 pipeline{
     agent any // Execute this Pipeline or any of its stages, on any available agent
+    
+    environment{
+    PATH = "/opt/maven/bin:$PATH"
+    }
+    
     stages{
         stage("Git Checkout"){
             steps{
                 git credentialsId: 'cicd', url: 'https://github.com/monoem/cicd_k8s'
             }            
         }        
+       stage("Maven Build"){
+       sh "mvn clean package"
+           }       
+       }       
     }
 }
