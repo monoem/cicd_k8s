@@ -1,0 +1,10 @@
+pipeline{
+    agent any // Execute this Pipeline or any of its stages, on any available agent
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git credentialsId: 'cicd', url: 'https://github.com/monoem/cicd_k8s'
+            }            
+        }        
+    }
+}
