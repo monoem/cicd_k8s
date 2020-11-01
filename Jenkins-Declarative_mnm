@@ -25,8 +25,8 @@ pipeline{
 	    sshagent(['tomcat-new']) {
 	  	sh """ 
           	scp -o StrictHostKeyChecking=no target/cicd_k8s.war ec2-user@35.180.9.56:/opt/tomcat8/webapps/
-          	sh ec2-user@35.180.9.56 /opt/tomcat8/bin/shutdown.sh
-		sh ec2-user@35.180.9.56 /opt/tomcat8/bin/startup.sh
+          	ssh ec2-user@35.180.9.56 /opt/tomcat8/bin/shutdown.sh
+		ssh ec2-user@35.180.9.56 /opt/tomcat8/bin/startup.sh
          	 """
 		}
 	}
