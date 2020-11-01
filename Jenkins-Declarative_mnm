@@ -22,7 +22,7 @@ pipeline{
        
        stage("deploy-dev"){
        	steps{
-	    sshagent (credentials: ['tomcat-new']) {
+	    sshagent (['tomcat-new']) {
 	  	sh """ 
           	scp -o StrictHostKeyChecking=no target/cicd_k8s.war tomcat@172.31.7.190:/opt/tomcat8/webapps/
           	// restart my tomcat
