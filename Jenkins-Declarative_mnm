@@ -24,10 +24,10 @@ pipeline{
        	steps{
 	    sshagent(['tomcat-new']) {
 	  	sh """ 
-          	scp -o StrictHostKeyChecking=no target/cicd_k8s.war tomcat@35.180.9.56:/opt/tomcat8/webapps/
+          	scp -o StrictHostKeyChecking=no target/cicd_k8s.war ec2-user@35.180.9.56:/opt/tomcat8/webapps/
           	// restart my tomcat
-          	sh tomcat@35.180.9.56 /opt/tomcat8/bin/shutdown.sh
-		sh tomcat@35.180.9.56 /opt/tomcat8/bin/startup.sh
+          	sh ec2-user@35.180.9.56 /opt/tomcat8/bin/shutdown.sh
+		sh ec2-user@35.180.9.56 /opt/tomcat8/bin/startup.sh
          	 """
 		}
 	}
